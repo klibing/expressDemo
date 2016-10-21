@@ -1,0 +1,23 @@
+//
+   Created by libing on 2016/10/21.
+extends layout
+
+block content
+    h1= "列表"
+    table(style="border:1px solid #00ff00;")
+        tr
+        th 序号
+        th 姓
+        th 名
+        th 信息
+
+        - for(var i=0;i<rows.length;i++)
+            tr
+            td= rows[i]["id"]
+            td= rows[i]["firstname"]
+            td= rows[i]["lastname"]
+            td= rows[i]["message"]
+
+
+
+
