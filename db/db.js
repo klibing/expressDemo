@@ -4,8 +4,10 @@
  */
 var mysql = require("mysql");
 var db = {};
-db.query = function sqlback(sqllan, fn) {
-    var connection = mysql.createConnection({
+var connection = null;
+//启动链接
+function staticConnection() {
+    connection = mysql.createConnection({
         host:"localhost",
         user:"root",
         password:"123456",
@@ -19,6 +21,22 @@ db.query = function sqlback(sqllan, fn) {
             return;
         }
     });
+}
+//关闭链接
+function closeConnection() {
+    connection.end(function (error) {
+        if(error) {
+            return;
+        } else {
+            console.log("链接已关闭");
+        }
+
+    });
+}
+//sql执行
+db.query = function sqlback(sqllan, fn) {
+    staticConnection();
+
     var sql = sqllan;
     if(!sql) {
         return;
@@ -32,13 +50,14 @@ db.query = function sqlback(sqllan, fn) {
        fn(rows);
     });
 
-    connection.end(function (error) {
-        if(error) {
-            return;
-        } else {
-            console.log("链接已关闭");
-        }
+    closeConnection();
+}
+//分页查询
+db.pageList = function(sql, page, rows, fn) {
+    var pageListSql = "select * from (" + sql + ") limit  "
+}
 
-    });
+function pageTool() {
+
 }
 module.exports = db;

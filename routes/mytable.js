@@ -20,6 +20,7 @@ router.get("/list", function(request, response, next) {
 
         //response.render("mytable", {"rows" : JSON.stringify(results)});
         response.render("mytable", {"rows" : results});
+        //response.end(JSON.stringify({"rows" : results}));
 
     });
 });
