@@ -1,0 +1,28 @@
+<html>
+<title></title>
+<head>
+
+</head>
+<body>
+    <table>
+        <tr>
+            <th>编号</th>
+            <th>姓</th>
+            <th>名</th>
+            <th>信息</th>
+        </tr>
+        <%
+            rows.forEach(function(item){
+            %>
+                <tr>
+                    <td><%=item.id %></td>
+                    <td><%=item.lastname %></td>
+                    <td><%=item.firstname %></td>
+                    <td><%=item.message %></td>
+                </tr>
+            <%
+            });
+        %>
+    </table>
+</body>
+</html>
