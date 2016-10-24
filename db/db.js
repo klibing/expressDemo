@@ -8,7 +8,7 @@ var connection = null;
 //启动链接
 function staticConnection() {
     connection = mysql.createConnection({
-        host:"localhost",
+        host:"192.168.92.175",
         user:"root",
         password:"123456",
         database:"node",

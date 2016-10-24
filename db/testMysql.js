@@ -13,7 +13,6 @@ mysql.query("delete from mytable", function (results) {
 
 console.log("初始化表数据...");
 mysql.query("insert into mytable(lastname, firstname, message) values" +
-    "('王', '月', '111个人信息')," +
     "('李', '冰', 'sad空间哈萨科罚金')," +
     "('李', '冰', 'sad空间哈萨科罚金')," +
     "('李', '冰', 'sad空间哈萨科罚金')," +
