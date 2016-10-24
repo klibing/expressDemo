@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var file = require("./routes/file");
 var mytable = require("./routes/mytable");
+var loginFilter = require("./routes/loginFilter");
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use("/file", file);
 app.use("/mytable", mytable);
+app.use("*", loginFilter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

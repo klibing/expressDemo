@@ -12,9 +12,9 @@ router.get("/list", function(request, response, next) {
         if(results && results.length > 0) {
             for(var i=0;i<results.length;i++) {
                 var result = results[i];
-                console.log("first name:" + result["firstname"]);
+               /* console.log("first name:" + result["firstname"]);
                 console.log("last name:" + result["lastname"]);
-                console.log("message:" + result["message"]);
+                console.log("message:" + result["message"]);*/
             }
         }
 
