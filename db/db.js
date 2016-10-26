@@ -3,61 +3,39 @@
  * Created by libing on 2016/10/21.
  */
 var mysql = require("mysql");
+var config = require("../config/config");
+var Pool = require('generic-pool').Pool;
 var db = {};
-var connection = null;
-//启动链接
-function staticConnection() {
-    connection = mysql.createConnection({
-        host:"192.168.92.175",
-        user:"root",
-        password:"123456",
-        database:"node",
-        port:3306
-    });
-
-    connection.connect(function (error) {
-        if(error) {
-            console.log("connection Error:" + error.message);
-            return;
-        }
-    });
-}
-//关闭链接
-function closeConnection() {
-    connection.end(function (error) {
-        if(error) {
-            return;
-        } else {
-            console.log("链接已关闭");
-        }
-
-    });
-}
+var pool = new Pool({
+    name     : 'mysql',
+    create   : function(callback) {
+        var c = mysql.createConnection(config.persist.mysql);
+        // parameter order: err, resource
+        callback(null, c);
+    },
+    destroy  : function(client) { client.end(); },
+    max      : 10,
+    // optional. if you set this, make sure to drain() (see step 3)
+    min      : 2,
+    // specifies how long a resource can stay idle in pool before being removed
+    idleTimeoutMillis : 30000,
+    // if true, logs via console.log - can also be a function
+    log : true
+});
 //sql执行
 db.query = function sqlback(sqllan, fn) {
-    staticConnection();
-
-    var sql = sqllan;
-    if(!sql) {
-        return;
-    }
-
-    connection.query(sql, function (error, rows, fields) {
-       if(error) {
-           console.log("query Error:" + error.message);
-           return;
-       }
-       fn(rows);
+    pool.acquire(function(err, client) {
+        if (err) {
+            // handle error - this is generally the err from your
+            // factory.create function
+        }
+        else {
+            client.query(sqllan, function(error, rows, fields) {
+                // return object back to pool
+                fn(rows);
+                pool.release(client);
+            });
+        }
     });
-
-    closeConnection();
-}
-//分页查询
-db.pageList = function(sql, page, rows, fn) {
-    var pageListSql = "select * from (" + sql + ") limit  "
-}
-
-function pageTool() {
-
 }
 module.exports = db;
