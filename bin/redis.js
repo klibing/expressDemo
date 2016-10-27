@@ -1,7 +1,8 @@
 var Redis = require("ioredis");
-var cache = require("../config/config")
+var cache = require("../config/config");
+var cluster = require("../routes/cache")(Cluster);
 
-var cluster = new Redis.Cluster(config.cache.redis);
+
 cluster.on("ready", function (res) {
     console.log("ready");
 });
@@ -12,9 +13,9 @@ user.message = "asdassfa";
 console.log(user);
 //var user = "李冰";
 //cluster.expire("123456", 20);//设置过期时间
-cluster.set("123456", JSON.stringify(user), function (err, res) {
+/*cluster.set("123456", JSON.stringify(user), function (err, res) {
     console.log("OK");
-});
+});*/
 cluster.get('123456', function (err, res) {
     res = JSON.parse(res);
     console.log(res.name);
